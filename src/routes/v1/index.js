@@ -2,11 +2,12 @@ const express = require("express")
 const router = express.Router()
 const CartController = require("../../controller/cart-controller")
 const axios = require("axios")
+const { PRODUCT_SERVICE_BASE_URL } = require("../../config/server-config")
 router.post('/addProduct',async (req, res, next) => {
     const {variantId} = req.body
     try {
         console.log("((((((((((((((((( "+variantId)
-        const response = await axios.get(`http://localhost:3010/productService/api/user/get-by-variantId/${variantId}`, {
+        const response = await axios.get(`${PRODUCT_SERVICE_BASE_URL}/api/user/get-by-variantId/${variantId}`, {
             headers: {
                 authorization: req.headers["authorization"],
             },

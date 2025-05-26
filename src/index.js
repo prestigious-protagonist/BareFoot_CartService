@@ -12,9 +12,9 @@ const startServer = () => {
         res.send("HILK")
     } )
     app.use('/cartService/api', apiRouter)
-    app.use(cors({
-            origin: 'http://localhost:5173'
-        }))
+    // app.use(cors({
+    //         origin: 'http://localhost:5173'
+    //     }))
     
     app.listen(PORT, () => {
         console.log("Server listening on PORT : "+PORT)

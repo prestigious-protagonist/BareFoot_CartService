@@ -67,9 +67,10 @@ class CartService {
             //         explanation: "nothing to show",
             //     })
             // }
-            let cartId = cart?.id 
+            let cartId = cart?.id   
+            console.log("cart id is "+ JSON.stringify(cartId.id))
             if(!cartId) return
-            const cartItems = await this.CartRepository.getItems(cartId, options)
+            const cartItems = await this.CartRepository.getItems(cartId.id, options)
 
             return cartItems
         } catch (error) {

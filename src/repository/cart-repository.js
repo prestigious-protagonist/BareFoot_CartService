@@ -2,6 +2,7 @@
 const { Op } = require("sequelize");
 const {cart, cartItems} = require("../models/index");
 const {v4: uuid4} = require("uuid");
+const { PRODUCT_SERVICE_BASE_URL } = require("../config/server-config");
 class CartRepository {
     async checkCart(userId, options) {
         try {
@@ -137,7 +138,7 @@ class CartRepository {
       }
       async getShoeById(shoeId, options ) {
         try {
-          const exists = await axios.get(`http://localhost:3010/productService/api/user/get-by-Id/${shoeId}`)
+          const exists = await axios.get(`${PRODUCT_SERVICE_BASE_URL}/api/user/get-by-Id/${shoeId}`)
           return exists;
         } catch (error) {
           throw error;

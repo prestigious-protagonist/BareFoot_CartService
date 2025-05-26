@@ -1,15 +1,15 @@
 const { expressjwt: jwt } = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
-
+const {JWKSURI, AUDIENCE, ISSUER} = require("../config/server-config")
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: "https://dev-ticbss1kiwcuz4sb.au.auth0.com/.well-known/jwks.json",
+    jwksUri: JWKSURI,
   }),
-  audience: "https://dev-ticbss1kiwcuz4sb.au.auth0.com/api/v2/",
-  issuer: "https://dev-ticbss1kiwcuz4sb.au.auth0.com/",
+  audience: AUDIENCE,
+  issuer: ISSUER,
   algorithms: ["RS256"],
 });
 
