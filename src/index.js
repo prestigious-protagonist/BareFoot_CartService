@@ -11,6 +11,9 @@ const startServer = () => {
     app.get('/cartService/api', (req, res) => {
         res.send("HILK")
     } )
+    app.get('/', (req, res) => {
+        res.send("CartService...")
+    })
     app.use('/cartService/api', apiRouter)
     // app.use(cors({
     //         origin: 'http://localhost:5173'
