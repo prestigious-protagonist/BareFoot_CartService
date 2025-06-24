@@ -13,22 +13,17 @@ class CartService {
         try {
             let cartId;
              //check if user has a cart id
-            const cart = await this.CartRepository.checkCart(userId, options);
-            if(cart == null) {
-                console.log("HERERERERERERERERERER")
+            let cart = await this.CartRepository.checkCart(userId, options);
+            if(!cart) {
             
                 const newCart = await this.CartRepository.createCart(userId, options);
                 cartId = newCart.id
             }else{
                 
-                cartId = cart.id;
+                cartId = cart;
             }
-            console.log("Cart id is "+ cartId)
             //look if product already exists in cart
-            const prodExists = await this.CartRepository.prodExists(variantId, options);
-            console.log("OPOPO")
-            console.log(variantId)
-            console.log(prodExists?.dataValues?.shoevariantsId)
+            const prodExists = await this.CartRepository.prodExists(variantId, cartId, options);
             if(prodExists?.dataValues?.shoevariantsId) {
                 throw new ClientError({
                     name: "DuplicateResource",
@@ -42,7 +37,6 @@ class CartService {
                     })
             return item
         } catch (error) {
-            console.log(error)
             if(error.name == 'SequelizeValidationError' ) {
                 throw new ValidationError({
                     name: error.name,
@@ -67,11 +61,9 @@ class CartService {
             //         explanation: "nothing to show",
             //     })
             // }
-            let cartId = cart?.id   
-            console.log("cart id is "+ JSON.stringify(cartId.id))
+            let cartId = cart  
             if(!cartId) return
-            const cartItems = await this.CartRepository.getItems(cartId.id, options)
-
+            const cartItems = await this.CartRepository.getItems(cartId, options)
             return cartItems
         } catch (error) {
             if(error.name == 'SequelizeValidationError' ) {
@@ -89,8 +81,6 @@ class CartService {
     async clearCart(userId, options) {
         try {
             const cartId = await this.CartRepository.getCartIdByUserId(userId, options)
-            console.log(":OOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-            console.log("cart id is : "+JSON.stringify(cartId))
             if(!cartId.userId) throw new AppError()
             
             const cartItems = await this.CartRepository.clearCart(cartId.id, options)
@@ -112,7 +102,6 @@ class CartService {
     async updateItem(data, options) {
         try {
             const cartId = await this.CartRepository.getCartIdByUserId(data.userId, options)
-            console.log("cart id is : "+JSON.stringify(cartId))
             if(!cartId.userId) throw new AppError()
             
             const cartItems = await this.CartRepository.updateItem(data, options)

@@ -11,16 +11,14 @@ class CartRepository {
                     userId
                 }
             }, options);
-            return checkCart
+            return checkCart?.id;
 
         } catch (error) {
-            console.log(error)
             throw error
         }
     }
     async createCart(userId, options) {
         try {
-            console.log("Userod: "+userId)
             const newCart = await cart.create({
 
                     id: uuid4(),
@@ -54,7 +52,6 @@ class CartRepository {
 
     async getItems(cartId, options) {
         try {
-            console.log(cartId)
             const data = await cartItems.findAll({
                
                 cartId
@@ -67,10 +64,11 @@ class CartRepository {
             throw error
         }
     }
-    async prodExists(variantId, options = {}) {
+    async prodExists(variantId, cartId,options = {}) {
         try {
+          //also check cartId should match
           const data = await cartItems.findOne(
-            { where:{shoevariantsId: variantId} },
+            { where:{shoevariantsId: variantId, cartId: cartId,} },
             options
           );
           return data;
@@ -82,7 +80,6 @@ class CartRepository {
     
       async clearCart(cartId, options ) {
         try {
-          console.log("cartItem deleting for cartId : " +cartId)
           const data = await cartItems.destroy({
             where:{
                 cartId
@@ -111,11 +108,13 @@ class CartRepository {
       }
       async updateItem(data, options ) {
         try {
+          console.log("HERE")
           const product = await cartItems.findOne({
             where:{
-                shoeVariantsId: data.shoeVariantsId
+                shoevariantsId: data.shoeVariantsId
             }
           }, options)
+          console.log(product)
           product.quantity = data.quantity
           await product.save()
           return product;
