@@ -11,6 +11,7 @@ class CartService {
     }
     async create({variantId, userId, productData}, options) {
         try {
+            console.log("data dekhle : "+variantId+" "+userId+" "+productData)
             let cartId;
              //check if user has a cart id
             let cart = await this.CartRepository.checkCart(userId, options);
