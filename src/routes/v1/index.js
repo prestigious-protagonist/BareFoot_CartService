@@ -16,6 +16,7 @@ router.post('/addProduct',async (req, res, next) => {
         req.productData = response?.data?.data
         next()
     } catch (error) {
+        console.log("error aaya")
         console.log(error)
         next(error?.response?.data)
        
