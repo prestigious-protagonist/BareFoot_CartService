@@ -12,12 +12,12 @@ router.post('/addProduct',async (req, res, next) => {
                 authorization: req.headers["authorization"],
             },
         });
-        console.log(response.data.data)
-        req.productData = response.data.data
+        
+        req.productData = response?.data?.data
         next()
     } catch (error) {
         console.log(error)
-        next(error.response.data)
+        next(error?.response?.data)
        
     }
     

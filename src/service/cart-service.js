@@ -17,7 +17,7 @@ class CartService {
             if(!cart) {
             
                 const newCart = await this.CartRepository.createCart(userId, options);
-                cartId = newCart.id
+                cartId = newCart?.id
             }else{
                 
                 cartId = cart;
